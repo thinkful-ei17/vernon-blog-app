@@ -4,7 +4,6 @@ const express = require('express');
 const router = express.Router();
 
 const { DATABASE } = require('../config');
-var data = require('../db/dummy-data');
 const knex = require('knex')(DATABASE);
 
 // const { DATABASE } = require('../config');
@@ -60,13 +59,18 @@ router.post('/stories', (req, res) => {
 
     /***** Never Trust Users! *****/
     const newItem = {
-        id: data.nextVal++,
         title: title,
         content: content
     };
-    data.push(newItem);
+    knex('stories')
+        .insert(newItem)
+        .returning('id')
+        .then((id) => {
+            console.log('HERE! stories id');
 
-    res.location(`${req.originalUrl}/${newItem.id}`).status(201).json(newItem);
+            res.redirect(`${req.originalUrl}/${id}`);
+        });
+
 });
 
 /* ========== PUT/UPDATE A SINGLE ITEM ========== */
@@ -76,9 +80,18 @@ router.put('/stories/:id', (req, res) => {
     /***** Never Trust Users! *****/
 
     const id = Number(req.params.id);
-    const item = data.find((obj) => obj.id === id);
-    Object.assign(item, {title, content});
-    res.json(item);
+    knex.select()
+        .from('stories')
+        .where('id', id)
+        .update({
+            title: title,
+            content: content
+        })
+        .then(() => {
+            console.log('HERE! stories update');
+
+            res.json(title, content);
+        });
 });
 
 /* ========== DELETE/REMOVE A SINGLE ITEM ========== */
