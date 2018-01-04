@@ -84,8 +84,14 @@ router.put('/stories/:id', (req, res) => {
 /* ========== DELETE/REMOVE A SINGLE ITEM ========== */
 router.delete('/stories/:id', (req, res) => {
     const id = Number(req.params.id);
-    const index = data.findIndex((obj) => obj.id === id);
-    data.splice(index, 1);
+    knex.select()
+        .from('stories')
+        .where('id', id)
+        .del()
+        .then(() => {
+            console.log('HERE! delete');
+            res.status(204).end();
+        });
     res.status(204).end();
 });
 
