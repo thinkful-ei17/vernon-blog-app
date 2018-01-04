@@ -43,8 +43,15 @@ router.get('/stories', (req, res) => {
 /* ========== GET/READ SINGLE ITEMS ========== */
 router.get('/stories/:id', (req, res) => {
     const id = Number(req.params.id);
-    const item = data.find((obj) => obj.id === id);
-    res.json(item);
+
+    knex.select()
+        .from('stories')
+        .where('id', id)
+        .then((results) => {
+            console.log('HERE! stories id');
+
+            res.json(results);
+        });
 });
 
 /* ========== POST/CREATE ITEM ========== */
