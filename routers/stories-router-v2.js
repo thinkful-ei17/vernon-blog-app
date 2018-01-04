@@ -55,12 +55,13 @@ router.get('/stories/:id', (req, res) => {
 
 /* ========== POST/CREATE ITEM ========== */
 router.post('/stories', (req, res) => {
-    const {title, content} = req.body;
+    const {title, content, author} = req.body;
 
     /***** Never Trust Users! *****/
     const newItem = {
         title: title,
-        content: content
+        content: content,
+        author_id: author
     };
     knex('stories')
         .insert(newItem)
@@ -75,7 +76,7 @@ router.post('/stories', (req, res) => {
 
 /* ========== PUT/UPDATE A SINGLE ITEM ========== */
 router.put('/stories/:id', (req, res) => {
-    const {title, content} = req.body;
+    const {title, content, author} = req.body;
     console.log(title + ' ' +content);
     /***** Never Trust Users! *****/
 
@@ -84,11 +85,12 @@ router.put('/stories/:id', (req, res) => {
         .where('id', id)
         .update({
             title: title,
-            content: content
+            content: content,
+            author_id: author
         })
         .then(() => {
             console.log('HERE! stories update' + `${req.originalUrl}`);
-            res.json({id: id, title: title, content: content});
+            res.json({id: id, title: title, content: content, author_id: author});
         });
 });
 

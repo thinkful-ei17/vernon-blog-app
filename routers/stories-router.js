@@ -8,9 +8,6 @@ const knex = require('knex')(DATABASE);
 
 // const { DATABASE } = require('../config');
 // const knex = require('knex')(DATABASE);
-router.get('/', (req, res) => {
-    res.send('Home.');
-});
 
 /* ========== GET/READ ALL ITEMS ========== */
 router.get('/stories', (req, res) => {
