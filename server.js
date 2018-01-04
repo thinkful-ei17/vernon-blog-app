@@ -33,6 +33,9 @@ app.use(function (err, req, res) {
     });
 });
 
+app.get('/', function (req, res) {
+    res.send('Home');
+});
 const server = app
     .listen(PORT, () => {
         console.info(`App listening on port ${server.address().port}`);
