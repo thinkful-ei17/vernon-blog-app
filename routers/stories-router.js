@@ -76,21 +76,19 @@ router.post('/stories', (req, res) => {
 /* ========== PUT/UPDATE A SINGLE ITEM ========== */
 router.put('/stories/:id', (req, res) => {
     const {title, content} = req.body;
-
+    console.log(title + ' ' +content);
     /***** Never Trust Users! *****/
 
     const id = Number(req.params.id);
-    knex.select()
-        .from('stories')
+    knex('stories')
         .where('id', id)
         .update({
             title: title,
             content: content
         })
         .then(() => {
-            console.log('HERE! stories update');
-
-            res.json(title, content);
+            console.log('HERE! stories update' + `${req.originalUrl}`);
+            res.redirect(`${req.originalUrl}/${id}`);
         });
 });
 
