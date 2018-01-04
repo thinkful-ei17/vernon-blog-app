@@ -48,8 +48,8 @@ router.get('/stories/:id', (req, res) => {
         .where('id', id)
         .then((results) => {
             console.log('HERE! stories id');
-
-            res.json(results);
+            console.log('-------');
+            res.json(results[0]);
         });
 });
 
@@ -68,7 +68,7 @@ router.post('/stories', (req, res) => {
         .then((id) => {
             console.log('HERE! stories id');
 
-            res.redirect(`${req.originalUrl}/${id}`);
+            res.location(`${req.originalUrl}${id}`).status(201).json(newItem);
         });
 
 });
@@ -88,7 +88,7 @@ router.put('/stories/:id', (req, res) => {
         })
         .then(() => {
             console.log('HERE! stories update' + `${req.originalUrl}`);
-            res.redirect(`${req.originalUrl}/${id}`);
+            res.json({id: id, title: title, content: content});
         });
 });
 
