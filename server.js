@@ -18,25 +18,25 @@ app.use('/api/v1', storiesRouter);
 
 // Catch-all endpoint for requests to non-existent endpoint
 app.use(function (req, res, next) {
-  var err = new Error('Not Found');
-  err.status = 404;
-  next(err);
+    var err = new Error('Not Found');
+    err.status = 404;
+    next(err);
 });
 
 // Catch-all endpoint for errors
 // Prevent stacktrace from being leaked to user in production
-app.use(function (err, req, res, next) {
-  res.status(err.status || 500);
-  res.json({
-    message: err.message,
-    error: (app.get('env') === 'development') ? err : {}
-  });
+app.use(function (err, req, res) {
+    res.status(err.status || 500);
+    res.json({
+        message: err.message,
+        error: (app.get('env') === 'development') ? err : {}
+    });
 });
 
 const server = app
-  .listen(PORT, () => {
-    console.info(`App listening on port ${server.address().port}`);
-  })
-  .on('error', err => {
-    console.error(err);
-  });
+    .listen(PORT, () => {
+        console.info(`App listening on port ${server.address().port}`);
+    })
+    .on('error', err => {
+        console.error(err);
+    });
