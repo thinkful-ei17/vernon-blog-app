@@ -76,7 +76,7 @@ router.post('/stories', (req, res) => {
 
 /* ========== PUT/UPDATE A SINGLE ITEM ========== */
 router.put('/stories/:id', (req, res) => {
-    const {title, content, author} = req.body;
+    const {title, content, author_id } = req.body;
     console.log(title + ' ' +content);
     /***** Never Trust Users! *****/
 
@@ -86,11 +86,11 @@ router.put('/stories/:id', (req, res) => {
         .update({
             title: title,
             content: content,
-            author_id: author
+            author_id: author_id
         })
         .then(() => {
             console.log('HERE! stories update' + `${req.originalUrl}`);
-            res.json({id: id, title: title, content: content, author_id: author});
+            res.json({id: id, title: title, content: content, author_id: author_id});
         });
 });
 
